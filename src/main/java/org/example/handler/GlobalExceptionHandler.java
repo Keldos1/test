@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDto> handlerGenericException(Exception e) {
         log.error("Handler exception", e);
         var errorDto = new ExceptionDto(
-                "Handler exception",
+                "Handler exception1",
                 e.getMessage(),
                 LocalDate.now()
         );

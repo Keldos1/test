@@ -1,12 +1,9 @@
 package org.example.entity;
 
 
+import lombok.*;
 import org.example.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +15,10 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "users")
-public class Users extends SupperClass implements BaseEntity<Long> {
+public class Users  implements BaseEntity<Long> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     @Column(name = "username", nullable = false, unique = true)
     private String userName;
@@ -28,6 +28,9 @@ public class Users extends SupperClass implements BaseEntity<Long> {
 
     @Column(name = "firstname")
     private String firstName;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "lastname")
     private String lastName;

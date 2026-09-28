@@ -2,14 +2,14 @@ package org.example.service;
 
 
 import org.example.repository.CompanyRepository;
-import org.example.dto.CompanyCreateDto;
+import org.example.dto.CompanyMainDto;
 import org.example.dto.CompanyDto;
-import org.example.dto.CompanyUpdateDto;
 import org.example.entity.Company;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CompanyService {
@@ -25,7 +25,7 @@ public class CompanyService {
         if(name == null){
             companies = companyRepository.findAll();
         } else {
-            companies = companyRepository.findByName(name);
+            companies = companyRepository.findByName(name).stream().toList();
         }
         return companies.stream()
                 .map(company -> new CompanyDto(
@@ -37,7 +37,7 @@ public class CompanyService {
     @Transactional(readOnly = true)
     public CompanyDto findById(Long id) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Company not found"));
+                .orElseThrow(() -> new NoSuchElementException("Company not found"));
         return new CompanyDto(
                 company.getId(),
                 company.getName()
@@ -45,7 +45,7 @@ public class CompanyService {
     }
 
     @Transactional
-    public CompanyDto create(CompanyCreateDto dto) {
+    public CompanyDto create(CompanyMainDto dto) {
         Company company = new Company();
         company.setName(dto.name());
         company.setCountry(dto.country());
@@ -54,7 +54,7 @@ public class CompanyService {
     }
 
     @Transactional
-    public CompanyDto update(Long id, CompanyUpdateDto dto) {
+    public CompanyDto update(Long id, CompanyMainDto dto) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Company not found"));
         company.setName(dto.name());
@@ -72,5 +72,9 @@ public class CompanyService {
             throw new RuntimeException("Company not found");
         }
         companyRepository.deleteById(id);
+    }
+    public void findCompanyTwice(Long id) {
+        companyRepository.findById(id);
+        companyRepository.findById(id);
     }
 }

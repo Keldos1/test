@@ -1,7 +1,7 @@
 package org.example.controller;
 
 
-import org.example.dto.UserDto;
+import org.example.dto.UsersMainDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class GreetingController {
             @CookieValue("JSESSIONID") String jsessionid,
             @PathVariable("id") Integer id,
             Model model,
-            UserDto userReadDto) {
+            UsersMainDto userReadDto) {
 
 
         model.addAttribute("user", userReadDto);
@@ -25,7 +25,7 @@ public class GreetingController {
     }
 
     @GetMapping("/bye")
-    public String bye(ModelAndView mv, @SessionAttribute("user") UserDto user) {
+    public String bye(ModelAndView mv, @SessionAttribute("user") UsersMainDto user) {
         mv.setViewName("greeting/bye");
         return "greeting/bye";
     }

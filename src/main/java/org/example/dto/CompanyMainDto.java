@@ -1,6 +1,6 @@
 package org.example.dto;
 
-public record CompanyCreateDto(
+public record CompanyMainDto(
         String name,
         String country
 ) {
